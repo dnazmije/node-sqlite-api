@@ -13,7 +13,6 @@ var database = new sqlite3.Database('./database/BookingDB.db', sqlite3.OPEN_READ
 database.serialize(function() {
   database.all(`SELECT *
            FROM rooms
-           WHERE active = true
            ORDER BY created AND available`, function(err, row){
       if (err) {
           console.error(err.message);

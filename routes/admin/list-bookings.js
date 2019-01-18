@@ -15,11 +15,11 @@ var database = new sqlite3.Database('./database/BookingDB.db', sqlite3.OPEN_READ
 // **SQLite console gave error on FULL OUTER JOIN and RIGH JOIN
 // query here the bookings of user with userID=1
 database.serialize(function() {
-    database.all(`SELECT roomID, active, available, createdBy
+    database.all(`SELECT roomID, title, description, active, available, createdBy
             FROM rooms
             LEFT JOIN users
             ON rooms.createdBy = users.userID 
-            WHERE available = false AND userID = 1
+            WHERE available = false
             `, function(err, row){
         if (err) {
             console.error(err.message);
