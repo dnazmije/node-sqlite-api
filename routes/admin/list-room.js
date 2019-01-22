@@ -1,32 +1,28 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('sqlite3').verbose();
 
-var database = new sqlite3.Database('./database/BookingDB.db', sqlite3.OPEN_READWRITE, function(err) {
-  if (err) {
-    console.error(err.message);
-  }
+let database = new sqlite3.Database('./database/BookingDB.db', sqlite3.OPEN_READWRITE, (err) => {
+  if (err) console.error(err.message);
 });
 
 // query here the list of room for createdBy=1
-database.serialize(function() {
+database.serialize( () =>{
   database.all(`SELECT *
            FROM rooms 
-           WHERE createdBy = 1`, function(err, row){
+           WHERE createdBy = 1`, (err, row) =>{
       if (err) {
           console.error(err.message);
       }      
-      router.get('/admin/list-room', function(req, res, next) {           
-          res.send(row);
+      router.get('/admin/list-room', (req, res, next) => {           
+        res.send(row);
       });
   }); 
 });
 
-database.close(function (err) {
-  if (err) {
-    console.error(err.message);
-  }
+database.close( (err) => {
+  if (err) console.error(err.message);
 });
 
 module.exports = router; 
